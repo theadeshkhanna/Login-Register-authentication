@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const {User} = require('./users');
-var _ = require('lodash');
 const bodyparser = require('body-parser');
+var _ = require('lodash');
 
 var app = express();
 mongoose.Promise = global.Promise;
@@ -26,6 +26,17 @@ app.post('/Register', (req, res) => {
     }).catch((e) => {
         res.status(400).send(e);
     })
+});
+
+app.post('/Login', (req,res) => {
+
+    var data = _.pick(req.body, ['email', 'password']);
+    User.findByinput(data.email, data.password).then((user) => {
+        res.send('You are logged in');
+    }).catch((e) => {
+        res.send('Invalid credentials');
+    })
+    
 });
 
 app.listen(3000, () => {
