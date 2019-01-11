@@ -22,7 +22,7 @@ app.post('/Register', (req, res) => {
 
     var data = new User(req.body);
     data.save().then(() => {
-        res.send('Data save successfully');
+        res.send('Your are Registered, you can now login.. ');
     }).catch((e) => {
         res.status(400).send(e);
     })
