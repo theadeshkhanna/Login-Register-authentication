@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const {User} = require('./users');
+const {User} = require('./models/users');
 const bodyparser = require('body-parser');
 var _ = require('lodash');
 
@@ -37,6 +37,17 @@ app.post('/Login', (req,res) => {
         res.send('Invalid credentials');
     })
     
+});
+
+
+app.post('/Otp', (req,res) => {
+
+    var data = _.pick(req.body, ['email', 'Mob']);
+    User.OTP(data.email, data.Mob).then((user) => {
+        res.send('OTP is sent');
+    }).catch((e) => {
+        res.send('unable to send OTP');
+    })
 });
 
 app.listen(3000, () => {
