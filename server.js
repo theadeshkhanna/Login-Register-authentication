@@ -3,13 +3,22 @@ const mongoose = require('mongoose');
 const {User} = require('./models/users');
 const bodyparser = require('body-parser');
 var _ = require('lodash');
+const exphbs = require('express-handlebars');
 
 var app = express();
+
 mongoose.Promise = global.Promise;
+
+
+app.engine('handlebars', exphbs({   
+    defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 
-app.use(express.static(__dirname + '/HTML'));
+
 mongoose.connect('mongodb://localhost:27017/Login-Register', (err) => {
     if(err){
         console.log('Error connecting to database');
@@ -18,17 +27,29 @@ mongoose.connect('mongodb://localhost:27017/Login-Register', (err) => {
     }
 });
 
-app.post('/Register', (req, res) => {
+app.get('/', (req, res) => {
+    res.render('index');
+});
+
+app.post('/register', (req, res) => {
 
     var data = new User(req.body);
     data.save().then(() => {
-        res.send('Your are Registered, you can now login.. ');
+        res.render('login');
     }).catch((e) => {
         res.status(400).send(e);
     })
 });
 
-app.post('/Login', (req,res) => {
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.post('/login', (req,res) => {
 
     var data = _.pick(req.body, ['email', 'password']);
     User.findByinput(data.email, data.password).then((user) => {
@@ -39,9 +60,11 @@ app.post('/Login', (req,res) => {
     
 });
 
+app.get('/forgotPassword', (req, res) => {
+    res.render('forgotPassword');
+});
 
-app.post('/Otp', (req,res) => {
-
+app.post('/forgotPassword', (req,res) => {
     var data = _.pick(req.body, ['email', 'Mob']);
     User.OTP(data.email, data.Mob).then((user) => {
         res.send('OTP is sent');
