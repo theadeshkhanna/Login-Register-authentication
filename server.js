@@ -67,10 +67,23 @@ app.get('/forgotPassword', (req, res) => {
 app.post('/forgotPassword', (req,res) => {
     var data = _.pick(req.body, ['email', 'Mob']);
     User.OTP(data.email, data.Mob).then((user) => {
-        res.send('OTP is sent');
+        res.render('OTP');
     }).catch((e) => {
         res.send('unable to send OTP');
     })
+});
+
+app.get('/OTP', (req, res) => {
+    res.render('OTP');
+});
+
+app.post('/OTP', (req, res) => {
+    var OTP = req.body.otp;
+    if(OTP === val){
+        res.render('ChangePassword');
+    }else{
+        res.send('Wrong');
+    }
 });
 
 app.listen(3000, () => {
