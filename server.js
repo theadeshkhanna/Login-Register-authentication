@@ -4,6 +4,7 @@ const {User} = require('./models/users');
 const bodyparser = require('body-parser');
 var _ = require('lodash');
 const exphbs = require('express-handlebars');
+const {val} = require('./models/users');
 
 var app = express();
 

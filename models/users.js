@@ -103,6 +103,8 @@ UserSchema.statics.OTP = function (email, Mob) {
         });
     });
 };
+
+
 var User = mongoose.model('User', UserSchema);
 
 module.exports = { User,
