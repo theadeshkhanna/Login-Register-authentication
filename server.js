@@ -4,7 +4,8 @@ const {User} = require('./models/users');
 const bodyparser = require('body-parser');
 var _ = require('lodash');
 const exphbs = require('express-handlebars');
-const {val} = require('./models/users');
+
+//8ktc81cnuz
 
 var app = express();
 
@@ -79,12 +80,22 @@ app.get('/OTP', (req, res) => {
 });
 
 app.post('/OTP', (req, res) => {
-    var OTP = req.body.otp;
-    if(OTP === val){
+    var data = _.pick(req.body, ['otp']);
+    var a = User.verify(data.otp);
+    if(a == 1){
         res.render('ChangePassword');
     }else{
-        res.send('Wrong');
+        res.status(404).send('Error');
     }
+});
+
+app.get('/TBS', (req, res) => {
+    res.render('TBS');
+});
+
+app.post('/TBS', (req, res)=> {
+    var data = _.pick(req.body, ['strstn', 'deststn', 'jrndate']);
+    
 });
 
 app.listen(3000, () => {

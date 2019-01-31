@@ -41,6 +41,9 @@ var UserSchema = new mongoose.Schema({
     Mob: {
         type: Number,
         required: true
+    },
+    otp: {
+        type: Number
     }
 });
 
@@ -94,6 +97,7 @@ UserSchema.statics.OTP = function (email, Mob) {
                 body: `The OTP for your password verification is ${val}`
             }, (err, res) => {
                 if (res) {
+                    console.log(val);
                     resolve(user);
                 } else {
                     reject();
@@ -104,9 +108,14 @@ UserSchema.statics.OTP = function (email, Mob) {
     });
 };
 
-
+UserSchema.statics.verify = function(otp){
+    if(val == otp){
+        return 1;
+    }else{
+        return 0;
+    }
+};    
 var User = mongoose.model('User', UserSchema);
 
-module.exports = { User,
-    val
+module.exports = { User
 };
