@@ -4,8 +4,8 @@ const {User} = require('./models/users');
 const bodyparser = require('body-parser');
 var _ = require('lodash');
 const exphbs = require('express-handlebars');
+const request = require('request');
 
-//8ktc81cnuz
 
 var app = express();
 
@@ -89,14 +89,6 @@ app.post('/OTP', (req, res) => {
     }
 });
 
-app.get('/TBS', (req, res) => {
-    res.render('TBS');
-});
-
-app.post('/TBS', (req, res)=> {
-    var data = _.pick(req.body, ['strstn', 'deststn', 'jrndate']);
-    
-});
 
 app.listen(3000, () => {
     console.log('server is up and running at port 3000');

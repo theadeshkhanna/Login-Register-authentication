@@ -41,9 +41,6 @@ var UserSchema = new mongoose.Schema({
     Mob: {
         type: Number,
         required: true
-    },
-    otp: {
-        type: Number
     }
 });
 
@@ -97,7 +94,6 @@ UserSchema.statics.OTP = function (email, Mob) {
                 body: `The OTP for your password verification is ${val}`
             }, (err, res) => {
                 if (res) {
-                    console.log(val);
                     resolve(user);
                 } else {
                     reject();
